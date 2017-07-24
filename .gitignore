@@ -1,0 +1,7 @@
+__pycache__/
+.idea/
+*.*~
+.*~
+/tests/
+/config.py
+/photo_models/
