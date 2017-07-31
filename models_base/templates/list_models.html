@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+{#    <div class="col-md-3">test</div>#}
+    {% for one in all_models %}
+        {% if loop.first or loop.index0 is divisibleby 3 %}
+            <div class="row">
+                {% if loop.index0 is divisibleby 3 %}
+                    </div>
+                {% endif %}
+        {% endif %}
+        <div class="col-md-4">
+            <img src="{{ url_for ('static', filename ='photo_models/' + one.base_photo) }}" alt="{{ one.first_name }} {{ one.last_name }}" class="img-thumbnail" width="150">
+            <h3>{{ one.first_name }} <small>{{ one.last_name }}</small></h3>
+        </div>
+        {% if loop.last %}
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endblock %}
+
+{#    {% for one in all_models %}#}
+{#        <div class="col-md-2">#}
+{#            <img src="{{ url_for ('static', filename ='photo_models/' + one.base_photo) }}" alt="" class="img-thumbnail" width="150">#}
+{#            <h3>{{ one.first_name }} <small>{{ one.last_name }}</small></h3>#}
+{#        </div>#}
+{#    {% endfor %}#}

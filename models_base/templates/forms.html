@@ -5,7 +5,7 @@
         <h1 align="center"><span class="glyphicon glyphicon-user"></span> <small>Форма регистрации модели</small></h1>
 
         <form action="{{ url_for('index') }}" method="POST" enctype="multipart/form-data" class="form-horizontal">
-            {{ form.hidden_tag() }}
+            {{ form.csrf_token }}
             {% for field in form if field.widget.input_type != 'hidden' %}
                 <div class="form-group">
                     {{ field.label(class = 'col-sm-6 control-label')}}
@@ -19,9 +19,16 @@
                 </div>
             {% endfor %}
         </form>
+    {% for one in all_models %}
+    <p>
+        <img src="" alt="">
+        {{ one  }}
+        {{ one["first_name"] }} {{ one["last_name"] }}</p>
+    {% endfor %}
     </div>
     <div class="col-md-3 hidden-xs hidden-sm">
         <img src="{{ url_for ('static', filename = 'image/silhouette50.png')}}" alt="Silhouette">
     </div>
+
 {% endblock %}
 
