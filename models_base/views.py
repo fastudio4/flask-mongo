@@ -15,8 +15,7 @@ def index():
             'last_name': form.last_name.data,
             'base_photo': image_path
         })
-        return 'New user is added'
-    #
+        return render_template('page_masage_complite.html', title='Форма отправленна')
     return render_template('forms.html', form=form, title='Form model')
 
 @app.route('/admin')

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+    <div class="col-xs-12 col-sm-6 col-md-9">
+        <h1 align="center">Ваша форма будет добавленна в базу в ближайшее время!</h1>
+
+    </div>
+    <div class="col-md-3 hidden-xs hidden-sm">
+        <img src="{{ url_for ('static', filename = 'image/silhouette50.png')}}" alt="Silhouette">
+    </div>
+
+{% endblock %}
+

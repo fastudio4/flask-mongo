@@ -1,7 +1,7 @@
 from models_base import base
 from .lable_and_message import *
 from flask_wtf import FlaskForm
-from wtforms import StringField, SelectField, DateField, SubmitField, IntegerField, TextAreaField, BooleanField
+from wtforms import StringField, SelectField, DateField, SubmitField, IntegerField, TextAreaField
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms.validators import InputRequired, Length, Email
 

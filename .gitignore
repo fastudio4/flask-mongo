@@ -6,4 +6,5 @@ __pycache__/
 /config.py
 /models_base/static/photo_models/
 /vr/
-models_base/templates/list_models.html
+
+
