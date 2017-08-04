@@ -1,7 +1,9 @@
 from .image_save import save_image
 from . import app, base
-from flask import render_template
-from .forms import ModelsForm
+from flask import render_template, request
+from .forms import ModelsForm, FilterModels
+
+from pprint import pprint
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -18,7 +20,14 @@ def index():
         return render_template('page_masage_complite.html', title='Форма отправленна')
     return render_template('forms.html', form=form, title='Form model')
 
-@app.route('/admin')
+@app.route('/admin', methods=['GET', 'POST'])
 def admin():
+    filter = FilterModels()
+    if request.method == 'POST':
+        request_dict = {}
+        for key, value in filter.data.items():
+            if value is not None and value != '' and key != 'csrf_token':
+                request_dict[key] = value
+        print(request_dict)
     all_models = base.db.models.find({})
-    return render_template('list_models.html', title='Model base', all_models=all_models)
+    return render_template('list_models.html', title='Model base', all_models=all_models, filter=filter)
