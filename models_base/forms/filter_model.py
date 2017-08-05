@@ -30,5 +30,3 @@ class FilterModels(FlaskForm):
     age_min = IntegerField(render_kw={'class': 'form-control', 'placeholder': min_value})
     age_max = IntegerField(render_kw={'class': 'form-control', 'placeholder': max_value})
 
-    # def data(self):
-    #     return self.

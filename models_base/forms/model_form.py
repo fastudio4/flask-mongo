@@ -68,3 +68,7 @@ class ModelsForm(FlaskForm):
             self.last_name.errors.append(message_already_exist)
             return False
         return True
+
+    def dict_data(self):
+        for key, value in self.data.items():
+            pass

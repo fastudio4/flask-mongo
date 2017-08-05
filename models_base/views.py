@@ -1,3 +1,4 @@
+import datetime
 from .image_save import save_image
 from . import app, base
 from flask import render_template, request
@@ -11,12 +12,19 @@ def index():
     form = ModelsForm()
     if form.validate_on_submit() and form.validate_on_base():
         image_path = save_image(form.first_name.data, form.last_name.data, form.base_photo.data)
+        new_model = dict()
+        for key, value in form.data.items():
+            if key != 'csrf_token' and key != 'base_photo' and key != 'date_birth':
+                new_model[key] = value
+        new_model['date_birth'] = {
+            'year': form.date_birth.data.year,
+            'month': form.date_birth.data.month,
+            'day': form.date_birth.data.day
+        }
+        new_model['base_photo'] = image_path
         model = base.db.models
-        model.insert({
-            'first_name': form.first_name.data,
-            'last_name': form.last_name.data,
-            'base_photo': image_path
-        })
+        model.insert_one(new_model)
+        print(new_model)
         return render_template('page_masage_complite.html', title='Форма отправленна')
     return render_template('forms.html', form=form, title='Form model')
 
