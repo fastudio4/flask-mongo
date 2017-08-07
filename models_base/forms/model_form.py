@@ -1,9 +1,11 @@
 from models_base import base
+from re import findall
 from .lable_and_message import *
 from flask_wtf import FlaskForm
+from models_base.image_save import save_image
 from wtforms import StringField, SelectField, DateField, SubmitField, IntegerField, TextAreaField
 from flask_wtf.file import FileField, FileAllowed, FileRequired
-from wtforms.validators import InputRequired, Length, Email
+from wtforms.validators import InputRequired, Length, Email, regexp, Optional
 
 
 class ModelsForm(FlaskForm):
@@ -49,7 +51,11 @@ class ModelsForm(FlaskForm):
                           validators=[InputRequired(message_required)],
                           render_kw={'class': 'form-control',
                                      'placeholder': '54'})
-    model_size = StringField(label=model_s, render_kw={'class': 'form-control',
+    model_size = StringField(label=model_s,
+                             validators=[regexp(r'^\d{2,3}[-]\d{2,3}[-]\d{2,3}$',
+                                                message=message_model_size_input_error),
+                                         Optional()],
+                             render_kw={'class': 'form-control',
                                      'placeholder': model_s_plc})
     shoe_size = IntegerField(label=shoe_s,
                              validators=[InputRequired(message_required)],
@@ -67,8 +73,41 @@ class ModelsForm(FlaskForm):
             self.first_name.errors.append(message_already_exist)
             self.last_name.errors.append(message_already_exist)
             return False
+        if base.db.models.find_one({'telephone': self.telephone.data}):
+            self.telephone.errors.append(message_phone_exist)
+            return False
+        if base.db.models.find_one({'email': self.email.data}):
+            self.email.errors.append(message_email_exist)
+            return False
         return True
 
     def dict_data(self):
+        new_model = dict()
+        image_path = save_image(self.first_name.data, self.last_name.data, self.base_photo.data)
         for key, value in self.data.items():
-            pass
+            if key != 'csrf_token' \
+                    and key != 'base_photo' \
+                    and key != 'date_birth'\
+                    and key != 'submit'\
+                    and key != 'model_size':
+                new_model[key] = value
+        new_model['date_birth'] = {
+            'year': self.date_birth.data.year,
+            'month': self.date_birth.data.month,
+            'day': self.date_birth.data.day
+        }
+        new_model['base_photo'] = image_path[0]
+        new_model['folder_slug'] = image_path[1]
+        new_model['model_size'] = self.parse_model_size()
+        return new_model
+
+    def parse_model_size(self):
+        model_size = dict()
+        if self.model_size.data != '':
+            size = findall(r'\d{2,3}', self.model_size.data)
+            model_size['breast'] = size[0]
+            model_size['waist'] = size[1]
+            model_size['thighs'] = size[2]
+            return model_size
+        else:
+            return ''

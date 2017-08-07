@@ -15,4 +15,4 @@ def save_image(first_name, last_name, photo_form):
     name_file = '%s-%s.%s' % (name_folder, 'base', photo.format)
     photo.thumbnail((MAX_SIZE_X, MAX_SIZE_Y), Image.ANTIALIAS)
     photo.save(join(UPLOAD_PHOTO, name_folder, name_file), dpi=(72., 72.), quality=90)
-    return join(name_folder, name_file)
+    return [join(name_folder, name_file), name_folder]

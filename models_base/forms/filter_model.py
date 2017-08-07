@@ -1,6 +1,8 @@
 from .lable_and_message import *
+from models_base import base
 from flask_wtf import FlaskForm
 from wtforms import StringField, SelectField, IntegerField
+
 
 class FilterModels(FlaskForm):
 
@@ -30,3 +32,12 @@ class FilterModels(FlaskForm):
     age_min = IntegerField(render_kw={'class': 'form-control', 'placeholder': min_value})
     age_max = IntegerField(render_kw={'class': 'form-control', 'placeholder': max_value})
 
+    def parse_request_filter(self):
+        request_dict = dict()
+        for key, value in self.data.items():
+            if value is not None \
+                    and value != '' \
+                    and key != 'csrf_token'\
+                    and value != 'None':
+                request_dict[key] = value
+        return request_dict

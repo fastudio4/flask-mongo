@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block title %}{{ model.first_name }} - {{ model.last_name }}{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <a href="{{ url_for ('admin') }}"><img src="{{ url_for ('static', filename ='photo_models/' + model.base_photo) }}" alt="{{ model.first_name }} {{ model.last_name }}" width="300" class="img-thumbnail"></a>
+                <a href="#" class="btn btn-info btn-block"><span class="glyphicon glyphicon-th-list"></span> <b>Обновить данные модели</b></a>
+                <a href="#" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-camera"></span> <b>Добавить/удалить фото</b></a>
+                <a href="#" class="btn btn-warning btn-block"><span class="glyphicon glyphicon-trash"></span> <b>Удалить модель из базы</b></a>
+            </div>
+            <div class="col-md-3">
+                <h3>Контакты</h3>
+                <ul class="list-unstyled">
+                    <li>Имя: <b>{{ model.first_name }}</b></li>
+                    <li>Фамилия: <b>{{ model.last_name }}</b></li>
+                    <li>Телефон: <b>{{ model.telephone }}</b></li>
+                    <li>Почта: <b><a href="mailto:{{ model.email }}">{{ model.email }}</a></b></li>
+                    {% if model.skype_contacts %}
+                        <li>Skype: <b><a href="skype:{{ model.skype_contacts }}?chat">{{ model.skype_contacts }}</a></b></li>
+                    {% endif %}
+                    {% if model.facebook_contacts %}
+                        <li>Facebook: <b><a href="{{ model.facebook_contacts }}" target="_blank">перейти</a></b></li>
+                    {% endif %}
+                </ul>
+
+            </div>
+            <div class="col-md-3">
+                <h3>Параметры</h3>
+                <ul class="list-unstyled">
+                    <li>Возраст: <b>{{ date_now.year - model.date_birth.year}}</b></li>
+                    <li>Рост: <b>{{ model.height }}</b> <small>см.</small></li>
+                    <li>Вес: <b>{{ model.weight }}</b> <small>кг.</small></li>
+                    <li>Размер обуви: <b>{{ model.shoe_size }}</b></li>
+                </ul>
+                    {% if model.model_size %}
+                        <h4>Формы:</h4>
+                            <ul>
+                                <li>Грудь: <b>{{ model.model_size.breast }}</b> <small>см.</small></li>
+                                <li>Талия: <b>{{ model.model_size.waist }}</b> <small>см.</small></li>
+                                <li>Бедра: <b>{{ model.model_size.thighs }}</b> <small>см.</small></li>
+                            </ul>
+                    {% endif %}
+            </div>
+            <div class="col-md-3">
+                {% if model.additional %}
+                    <h3>Дополнительно</h3>
+                    <p>{{ model.additional }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+

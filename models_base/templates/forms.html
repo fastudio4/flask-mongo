@@ -4,13 +4,22 @@
     <div class="container">
         <div class="row">
             <div class="col-xs-12 col-sm-6 col-md-9">
-                <h1 align="center"><span class="glyphicon glyphicon-user"></span> <small>Форма регистрации модели</small></h1>
+{#                <h1 align="center"><span class="glyphicon glyphicon-user"></span> <small>Форма регистрации модели</small></h1>#}
                 <form action="{{ url_for('index') }}" method="POST" enctype="multipart/form-data" class="form-horizontal">
                     {{ form.csrf_token }}
                     {% for field in form if field.widget.input_type != 'hidden' %}
                         <div class="form-group">
                             {{ field.label(class = 'col-sm-6 control-label')}}
                             <div class="col-sm-6">{{ field }}
+                                {% if field.name == 'telephone' %}
+                                    <p class="help-block"><small><i>Пример: +380630123456</i></small></p>
+                                {% endif %}
+                                {% if field.name == 'facebook_contacts' %}
+                                    <p class="help-block"><small><i>Пример: https://www.facebook.com/<b>xxxxx</b></i></small></p>
+                                {% endif %}
+                                {% if field.name == 'model_size' %}
+                                    <p class="help-block"><small><i>Пример: грудь-талия-бедра, <b>объем в сантимертах</b></i></small></p>
+                                {% endif %}
                                 {% if field.errors %}
                                     {% for error in field.errors %}
                                         <span class="text-danger"><b>{{ error }}</b></span>
